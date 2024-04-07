@@ -1,0 +1,8 @@
+// jsconfig.json
+{
+    "compilerOptions": {
+        "target": "esnext",
+        "module": "esnext",
+        // Other JavaScript compiler options...
+    }
+}

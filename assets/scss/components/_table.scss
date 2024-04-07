@@ -1,0 +1,29 @@
+.table-badge {
+  width: 80px;
+  padding-top: 3.5px;
+  padding-bottom: 3.5px;
+  font-size: 10.2px;
+}
+
+.table-style {
+  font-size: 11px;
+  margin-top: 15px;
+  max-height: 37.7rem;
+}
+
+.bottom-label {
+  color: gray;
+  font-size: 10.8px;
+}
+
+.b-table-sticky-header > .table.b-table > thead > tr > th {
+  position: sticky !important;
+}
+
+.tb-success {
+  background-color: #f0fbf3;
+}
+
+.tb-danger {
+  background-color: #ffe4e4;
+}

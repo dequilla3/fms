@@ -7,9 +7,26 @@
   font-size: x-large;
 }
 
-.w-150px {
-  max-width: 150px;
+.fsize-8px {
+  font-size: 8px;
 }
+
+.fsize-10px {
+  font-size: 10px;
+}
+
+.w-150px {
+  max-width: 150px !important;
+}
+
+.w-50px {
+  max-width: 50px;
+}
+
+.w-100 {
+  width: 100%;
+}
+
 * {
   margin: 0;
   padding: 0;

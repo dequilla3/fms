@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -38,4 +40,19 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
+
+  server: {
+    port: process.env.PORT,
+    host: process.env.HOST,
+  },
+
+  axios: {
+    baseUrl: process.env.BASE_URL,
+  },
+
+  env: {
+    DATE_EXP: process.env.DATE_EXP,
+    VERSION: process.env.VERSION,
+    APPNAME: process.env.APPNAME,
+  },
 };
