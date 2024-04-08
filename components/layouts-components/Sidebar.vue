@@ -35,12 +35,27 @@ export default {
   data() {
     return {
       menus: [
-        { menu: "Admin", icon: "user-tie", selected: false },
-        { menu: "Accounting", icon: "calculator", selected: false },
-        { menu: "Billing", icon: "file-invoice-dollar", selected: false },
-        { menu: "Treasury", icon: "gem", selected: false },
-        { menu: "Reports", icon: "chart-line", selected: false },
-        { menu: "Profile", icon: "user", selected: false },
+        { menu: "Admin", icon: "user-tie", selected: false, route: "/admin" },
+        {
+          menu: "Accounting",
+          icon: "calculator",
+          selected: false,
+          route: "/accounting",
+        },
+        {
+          menu: "Billing",
+          icon: "file-invoice-dollar",
+          selected: false,
+          route: "/billing",
+        },
+        { menu: "Treasury", icon: "gem", selected: false, route: "/treasury" },
+        {
+          menu: "Reports",
+          icon: "chart-line",
+          selected: false,
+          route: "/reports",
+        },
+        { menu: "Profile", icon: "user", selected: false, route: null },
       ],
     };
   },
@@ -51,6 +66,10 @@ export default {
       });
       item.selected = true;
       localStorage.selectedMenu = item.menu;
+
+      if (item.route != null) {
+        this.$router.push(item.route);
+      }
     },
 
     onLogout() {
