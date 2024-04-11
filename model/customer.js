@@ -1,0 +1,33 @@
+export var CUSTOMER = {
+  firstName: "",
+  middleName: "",
+  lastName: "",
+  contactPerson: "",
+  contactPersonPhone: "",
+  street: "",
+  city: "",
+  province: "",
+  zipCode: "",
+  country: "",
+  TIN: "",
+  businessType: null,
+  paymentTerms: "",
+  paymentMethod: null,
+  productServicesProvided: "",
+  contractStart: "",
+  contractEnd: "",
+  billingAddress1: "",
+  billingAddress2: "",
+  rating: "",
+  notes: "",
+  dateCreated: "",
+};
+
+export var customerFields = [
+  { key: "customerId", label: "Customer ID" },
+  { key: "fullName", label: "Full Name" },
+  { key: "contractStart", label: "Contract Start" },
+  { key: "contractEnd", label: "Contract End" },
+  { key: "dateCreated", label: "Date Created" },
+  { key: "actions", label: "Actions" },
+];

@@ -12,9 +12,9 @@
         </b-button>
       </div>
 
-      <b-button @click="addVendor()" variant="primary">
+      <b-button @click="addCustomer()" variant="primary">
         <font-awesome-icon :icon="['fas', 'plus']" />
-        Add vendor
+        Add customer
       </b-button>
     </div>
 
@@ -24,31 +24,38 @@
       scrollable
       sticky-header
       no-border-collapse
-      :fields="vendorFields"
-      :items="vendorList"
+      :fields="customerFields"
+      :items="customerList"
       hover
     >
-      <template v-slot:cell(vendorId)="row">
-        {{ "VNDR" + String(row.item.vendorId).padStart(5, "0") }}
+      <template v-slot:cell(customerId)="row">
+        {{ "CUST" + String(row.item.customerId).padStart(5, "0") }}
       </template>
 
       <template v-slot:cell(fullName)="row">
         {{ row.item.firstName + " " + row.item.lastName }}
       </template>
 
-      <template v-slot:cell(viewDetails)="row">
+      <template v-slot:cell(actions)="row">
         <b-button
           size="sm"
           class="pl-3 pr-3"
           @click="showDetailsModal(row.item)"
         >
-          <font-awesome-icon :icon="['fas', 'eye']" />
+          VIEW DETAILS
+        </b-button>
+        <b-button
+          size="sm"
+          class="pl-3 pr-3"
+          @click="onAssignBtnClick(row.item)"
+        >
+          ASSIGN FIELD
         </b-button>
       </template>
     </b-table>
 
     <b-modal
-      id="vendorDetailsModal"
+      id="customerDetailsModal"
       size="huge"
       header-bg-variant="primary"
       header-text-variant="light"
@@ -57,7 +64,7 @@
       hide-footer
     >
       <template v-slot:modal-title>
-        <h6>Vendor Details</h6>
+        <h6>Customer Details</h6>
       </template>
 
       <div class="ml-5 mr-5">
@@ -89,7 +96,7 @@
               type="text"
               :maxlength="10"
               class="form-text"
-              v-model="vendorData.firstName"
+              v-model="customerData.firstName"
             />
           </div>
           <div class="w-25 m-3">
@@ -100,7 +107,7 @@
               :maxlength="10"
               class="form-text"
               placeholder="(Optional)"
-              v-model="vendorData.middleName"
+              v-model="customerData.middleName"
             />
           </div>
           <div class="w-25 m-3">
@@ -110,7 +117,7 @@
               type="text"
               :maxlength="10"
               class="form-text"
-              v-model="vendorData.lastName"
+              v-model="customerData.lastName"
             />
           </div>
         </div>
@@ -124,7 +131,7 @@
               type="text"
               :maxlength="10"
               class="form-text"
-              v-model="vendorData.contactPerson"
+              v-model="customerData.contactPerson"
             />
           </div>
           <div class="w-25 m-3">
@@ -134,7 +141,7 @@
               type="text"
               :maxlength="10"
               class="form-text"
-              v-model="vendorData.contactPersonPhone"
+              v-model="customerData.contactPersonPhone"
             />
           </div>
           <div class="w-25 m-3"></div>
@@ -149,7 +156,7 @@
               type="text"
               :maxlength="10"
               class="form-text"
-              v-model="vendorData.street"
+              v-model="customerData.street"
             />
           </div>
           <div class="w-25 m-3">
@@ -159,7 +166,7 @@
               type="text"
               :maxlength="10"
               class="form-text"
-              v-model="vendorData.city"
+              v-model="customerData.city"
             />
           </div>
           <div class="w-25 m-3">
@@ -169,7 +176,7 @@
               type="text"
               :maxlength="10"
               class="form-text"
-              v-model="vendorData.province"
+              v-model="customerData.province"
             />
           </div>
         </div>
@@ -183,7 +190,7 @@
               type="text"
               :maxlength="10"
               class="form-text"
-              v-model="vendorData.zipCode"
+              v-model="customerData.zipCode"
             />
           </div>
           <div class="w-25 m-3">
@@ -194,7 +201,7 @@
               :maxlength="10"
               class="form-text"
               placeholder="(Optional)"
-              v-model="vendorData.TIN"
+              v-model="customerData.TIN"
             />
           </div>
           <div class="w-25 m-3">
@@ -202,7 +209,7 @@
             <b-form-select
               :disabled="!isEditMode"
               id="businessType"
-              v-model="vendorData.businessType"
+              v-model="customerData.businessType"
               class="form-text"
               :options="businessTypeOptions"
             ></b-form-select>
@@ -218,7 +225,7 @@
               type="text"
               :maxlength="10"
               class="form-text"
-              v-model="vendorData.paymentTerms"
+              v-model="customerData.paymentTerms"
             />
           </div>
           <div class="w-25 m-3">
@@ -226,7 +233,7 @@
             <b-form-select
               :disabled="!isEditMode"
               id="businessType"
-              v-model="vendorData.paymentMethod"
+              v-model="customerData.paymentMethod"
               class="form-text"
               :options="paymentMethodOptions"
             ></b-form-select>
@@ -238,7 +245,7 @@
               type="text"
               :maxlength="10"
               class="form-text"
-              v-model="vendorData.productServicesProvided"
+              v-model="customerData.productServicesProvided"
             />
           </div>
         </div>
@@ -251,7 +258,7 @@
               :disabled="!isEditMode"
               type="date"
               class="form-text"
-              v-model="vendorData.contractStart"
+              v-model="customerData.contractStart"
             />
           </div>
           <div class="w-25 m-3">
@@ -260,7 +267,7 @@
               :disabled="!isEditMode"
               type="date"
               class="form-text"
-              v-model="vendorData.contractEnd"
+              v-model="customerData.contractEnd"
             />
           </div>
           <div class="w-25 m-3"></div>
@@ -275,7 +282,7 @@
               type="text"
               :maxlength="10"
               class="form-text"
-              v-model="vendorData.billingAddress1"
+              v-model="customerData.billingAddress1"
             />
           </div>
           <div class="w-25 m-3">
@@ -285,7 +292,7 @@
               type="text"
               :maxlength="10"
               class="form-text"
-              v-model="vendorData.billingAddress2"
+              v-model="customerData.billingAddress2"
             />
           </div>
           <div class="w-25 m-3"></div>
@@ -300,7 +307,7 @@
               type="text"
               :maxlength="10"
               class="form-text"
-              v-model="vendorData.rating"
+              v-model="customerData.rating"
             />
           </div>
           <div class="w-25 m-3">
@@ -310,7 +317,7 @@
               type="text"
               :maxlength="10"
               class="form-text"
-              v-model="vendorData.notes"
+              v-model="customerData.notes"
             />
           </div>
           <div class="w-25 m-3"></div>
@@ -324,30 +331,127 @@
             <b-button variant="primary" class="w-100">Save</b-button>
           </div>
           <div class="w-25 m-3">
-            <b-button class="w-100">Close</b-button>
+            <b-button
+              @click="$bvModal.hide('customerDetailsModal')"
+              class="w-100"
+            >
+              Close
+            </b-button>
           </div>
           <div class="w-25 m-3"></div>
         </div>
       </div>
     </b-modal>
+
+    <b-modal
+      id="assignFieldModal"
+      size="reg"
+      header-bg-variant="primary"
+      header-text-variant="light"
+      body-bg-variant="gray"
+      scrollable
+      hide-footer
+    >
+      <template v-slot:modal-title>
+        <h6>Assign Field</h6>
+      </template>
+      <b-button
+        variant="primary"
+        class="pl-3 pr-3"
+        @click="onAddFieldModalBtnClick()"
+      >
+        ADD FIELD
+      </b-button>
+      <b-table
+        show-empty
+        class="table-style"
+        scrollable
+        sticky-header
+        no-border-collapse
+        :fields="fieldFields"
+        :items="fieldList"
+        hover
+      >
+        <template v-slot:cell(fieldId)="row">
+          {{ "FID" + String(row.item.fieldId).padStart(5, "0") }}
+        </template>
+
+        <template v-slot:cell(actions)="row">
+          <b-button
+            variant="danger"
+            size="sm"
+            class="pl-3 pr-3"
+            @click="onRemoveAssignedField(row.item)"
+          >
+            REMOVE
+          </b-button>
+        </template>
+      </b-table>
+    </b-modal>
+
+    <b-modal
+      id="addFieldModal"
+      size="smed"
+      header-bg-variant="primary"
+      header-text-variant="light"
+      body-bg-variant="gray"
+      scrollable
+      hide-footer
+    >
+      <template v-slot:modal-title>
+        <h6>Add Field</h6>
+      </template>
+      <div class="d-flex">
+        <b-form-input
+          id="inline-form-input-search"
+          placeholder="Search..."
+          class="mr-1"
+        />
+        <b-button class="w-25" variant="primary">
+          <font-awesome-icon :icon="['fas', 'magnifying-glass']" />
+        </b-button>
+      </div>
+      <b-table
+        show-empty
+        class="table-style"
+        scrollable
+        sticky-header
+        no-border-collapse
+        :fields="addFieldFields"
+        :items="addFieldList"
+        hover
+      >
+        <template v-slot:cell(fieldId)="row">
+          {{ "FID" + String(row.item.fieldId).padStart(5, "0") }}
+        </template>
+
+        <template v-slot:cell(actions)="row">
+          <b-button size="sm" class="pl-3 pr-3" @click="onAddField(row.item)">
+            SELECT
+          </b-button>
+        </template>
+      </b-table>
+    </b-modal>
   </div>
 </template>
 <script>
-import { VENDOR_DATA, PAYMENT_METHODS } from "../../test/data/constants.js";
-import { VENDOR } from "../../model/vendor.js";
+import {
+  CUSTOMER_DATA,
+  FIELD_DATA,
+  PAYMENT_METHODS,
+} from "../../test/data/constants.js";
+import { CUSTOMER, customerFields } from "../../model/customer.js";
+import { fieldFields } from "../../model/field.js";
 export default {
   data() {
     return {
-      vendorFields: [
-        { key: "vendorId", label: "Vendor ID" },
-        { key: "fullName", label: "Full Name" },
-        { key: "contractStart", label: "Contract Start" },
-        { key: "contractEnd", label: "Contract End" },
-        { key: "dateCreated", label: "Date Created" },
-        { key: "viewDetails", label: "View Details" },
-      ],
-      vendorList: VENDOR_DATA,
-      vendorData: VENDOR,
+      customerFields,
+      customerList: CUSTOMER_DATA,
+      customerData: CUSTOMER,
+      fieldFields,
+      fieldList: FIELD_DATA,
+      addFieldFields: ["fieldId", "actions"],
+      addFieldList: FIELD_DATA,
       businessTypeOptions: [{ value: null, text: "Please select an option" }],
       paymentMethodOptions: PAYMENT_METHODS,
       isEditMode: false,
@@ -356,6 +460,14 @@ export default {
   },
 
   methods: {
+    onAddField(item) {},
+    onAddFieldModalBtnClick() {
+      this.$bvModal.show("addFieldModal");
+    },
+    onAssignBtnClick() {
+      this.$bvModal.show("assignFieldModal");
+    },
+    onRemoveAssignedField(item) {},
     onClickEditMode() {
       this.isEditMode = !this.isEditMode;
     },
@@ -363,18 +475,16 @@ export default {
     showDetailsModal(item) {
       this.isEditMode = false;
       this.isAdd = false;
-      this.vendorData = VENDOR;
-      this.$bvModal.show("vendorDetailsModal");
+      this.customerData = CUSTOMER;
+      this.$bvModal.show("customerDetailsModal");
       this.setVendorDetailsToInput(item);
-
-      console.log(VENDOR);
     },
 
-    addVendor() {
+    addCustomer() {
       this.isEditMode = true;
       this.isAdd = true;
-      this.$bvModal.show("vendorDetailsModal");
-      this.vendorData = {
+      this.$bvModal.show("customerDetailsModal");
+      this.customerData = {
         firstName: "",
         middleName: "",
         lastName: "",
@@ -401,28 +511,28 @@ export default {
     },
 
     setVendorDetailsToInput(item) {
-      this.vendorData.firstName = item.firstName;
-      this.vendorData.middleName = item.middleName;
-      this.vendorData.lastName = item.lastName;
-      this.vendorData.contactPerson = item.contactPerson;
-      this.vendorData.contactPersonPhone = item.contactPersonPhone;
-      this.vendorData.street = item.street;
-      this.vendorData.city = item.city;
-      this.vendorData.province = item.province;
-      this.vendorData.zipCode = item.zipCode;
-      this.vendorData.country = item.country;
-      this.vendorData.TIN = item.TIN;
-      this.vendorData.businessType = item.businessType;
-      this.vendorData.paymentTerms = item.paymentTerms;
-      this.vendorData.paymentMethod = item.paymentMethod;
-      this.vendorData.productServicesProvided = item.productServicesProvided;
-      this.vendorData.contractStart = item.contractStart;
-      this.vendorData.contractEnd = item.contractEnd;
-      this.vendorData.billingAddress1 = item.billingAddress1;
-      this.vendorData.billingAddress2 = item.billingAddress2;
-      this.vendorData.rating = item.rating;
-      this.vendorData.notes = item.notes;
-      this.vendorData.dateCreated = item.dateCreated;
+      this.customerData.firstName = item.firstName;
+      this.customerData.middleName = item.middleName;
+      this.customerData.lastName = item.lastName;
+      this.customerData.contactPerson = item.contactPerson;
+      this.customerData.contactPersonPhone = item.contactPersonPhone;
+      this.customerData.street = item.street;
+      this.customerData.city = item.city;
+      this.customerData.province = item.province;
+      this.customerData.zipCode = item.zipCode;
+      this.customerData.country = item.country;
+      this.customerData.TIN = item.TIN;
+      this.customerData.businessType = item.businessType;
+      this.customerData.paymentTerms = item.paymentTerms;
+      this.customerData.paymentMethod = item.paymentMethod;
+      this.customerData.productServicesProvided = item.productServicesProvided;
+      this.customerData.contractStart = item.contractStart;
+      this.customerData.contractEnd = item.contractEnd;
+      this.customerData.billingAddress1 = item.billingAddress1;
+      this.customerData.billingAddress2 = item.billingAddress2;
+      this.customerData.rating = item.rating;
+      this.customerData.notes = item.notes;
+      this.customerData.dateCreated = item.dateCreated;
     },
   },
 };
